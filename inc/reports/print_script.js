@@ -1,7 +1,6 @@
 $(document).ready(function() {
 	$("#form_date").hide();
 
-
 	$("#laporan").change(function(e){
 		const laporan = e.target.value;
 		if (laporan === 'presensi') {
@@ -9,7 +8,13 @@ $(document).ready(function() {
 		} else {
 			$("#form_date").hide();
 		}
+
+        getEkskulDate();
 	});
+
+    $("#ekskul").change(function(e){
+        getEkskulDate();
+    });
 
 	 // preview report
     $("#preview-report").click(function(e){
@@ -17,21 +22,42 @@ $(document).ready(function() {
 
         var laporan = $("#laporan").val();
         var ekskul = $("#ekskul").val();
-        var bulan_tahun = $("#bulan_tahun").val();
+        var tanggal = $("#tanggal").val();
 
         $.ajax({
             url: "preview_report.php",
             type: 'POST',
             data: {
                 laporan: laporan,
-                ekskul: ekskul,
-                bulan_tahun: bulan_tahun
+                id_ekskul: ekskul,
+                tanggal: tanggal
             },
             success: function(res) {
-            	// console.log(res);
                 $("#preview-data").html(res);
             }
         });
     });
 
 });
+
+function getEkskulDate() {
+    const laporan = $("#laporan").val();
+    const ekskul = $("#ekskul").val();
+    const token = $("#token").val();
+// console.log(laporan,ekskul);
+    if (laporan === 'presensi') {
+        $.ajax({
+            url: '../../actions.php?action=presensi_tanggal',
+            type: 'POST',
+            data: {
+                laporan: laporan,
+                id_ekskul: ekskul,
+                token:token
+            },
+            success: function(res) {
+                // console.log(res);
+                $("#tanggal").html(res);
+            }
+        });
+    }
+}

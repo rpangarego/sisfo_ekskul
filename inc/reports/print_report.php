@@ -27,18 +27,19 @@
                 <div class="card-body">
                 
                 <form action="generate_report" method="POST">
+                    <input type="hidden" name="token" id="token" value="<?= $_SESSION['token'] ?>">
                     <div class="row">
-                        <div class="col-md-12 col-lg-6" id="form_laporan">
+                        <div class="col-md-12 col-lg-4" id="form_laporan">
                         <div class="form-group">
                             <label for="laporan">Laporan</label>
                             <select name="laporan" id="laporan" class="custom-select">
                                 <option value="ekskul">Ekstrakurikuler</option>
-                                <!-- <option value="presensi">Presensi</option> -->
+                                <option value="presensi">Presensi</option>
                             </select>
                         </div>
                         </div>
 
-                        <div class="col-md-12 col-lg-6" id="form_ekskul">
+                        <div class="col-md-12 col-lg-4" id="form_ekskul">
                         <div class="form-group">
                             <label for="ekskul">Ekstrakurikuler</label>
                             <select name="ekskul" id="ekskul" class="custom-select">
@@ -47,12 +48,14 @@
                         </div>
                         </div>
 
-                        <!-- <div class="col-md-12 col-lg-4" id="form_date">
+                        <div class="col-md-12 col-lg-4" id="form_date">
                         <div class="form-group">
-                            <label for="laporan">Bulan - Tahun</label>
-                            <input id="bulan_tahun" type="month" name="bulan_tahun" value="<?= date('Y-m') ?>" class="form-control">
+                            <label for="laporan">Tanggal</label>
+                            <select name="tanggal" id="tanggal" class="custom-select">
+                                <option></option>
+                            </select>
                         </div>
-                        </div> -->
+                        </div>
                     </div>
 
                     <div class="row">

@@ -142,6 +142,24 @@ switch ($_GET['action']){
         $query = $db->query("DELETE FROM presensi WHERE id_ekskul='$id_ekskul' AND tanggal='$tanggal'");
         redirect_js('index?m=presensi');
         break;
+
+    // TANGGAL PRESENSI EKSKUL
+    case 'presensi_tanggal':
+        $date_options = '';
+        $id_ekskul = $_POST['id_ekskul'];
+
+        $results = $db->get_results("SELECT tanggal FROM presensi WHERE id_ekskul='$id_ekskul' GROUP BY tanggal ORDER BY tanggal DESC");
+
+        if (count($results) > 0 ) {
+            foreach ($results as $result) {
+                $date_options .= '<option value="'.$result->tanggal.'">'.date("d F Y", strtotime($result->tanggal)).'</option>';
+            }
+        } else {
+            $date_options = '<option></option>';
+        }
+
+        echo $date_options;
+        break;
 }
 
 
