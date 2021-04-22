@@ -7,6 +7,7 @@
         <tr>
             <th>No.</th>
             <th>Siswa</th>
+            <th>Kelas</th>
             <th>Ekstrakurikuler</th>
             <th>Aksi</th>
         </tr>
@@ -16,15 +17,16 @@
 
    require "../../inc/functions.php";
    $no=1;
-
+romanus
    $where = ($_SESSION['status'] != 'admin') ? "WHERE ex.id_pengurus='$_SESSION[userid]'" : "";
-   $peserta = $db->get_results("SELECT ps.*, sw.nama as siswa, ex.nama as ekskul FROM peserta ps LEFT JOIN siswa sw ON ps.id_siswa=sw.id LEFT JOIN ekskul ex ON ps.id_ekskul=ex.id $where ORDER BY ex.nama");
+   $peserta = $db->get_results("SELECT ps.*, sw.nama as siswa, sw.kelas, ex.nama as ekskul FROM peserta ps LEFT JOIN siswa sw ON ps.id_siswa=sw.id LEFT JOIN ekskul ex ON ps.id_ekskul=ex.id $where ORDER BY sw.kelas, sw.nama, ex.nama ASC");
 
     if ($peserta) :
        foreach ($peserta as $pst) : ?>
         <tr>
             <td><?= $no++; ?></td>
             <td><?= $pst->siswa; ?></td>
+            <td><?= $pst->kelas; ?></td>
             <td><?= $pst->ekskul; ?></td>
             <td>
                 <button id="edit-button" class="btn btn-sm btn-warning" data-id="<?= $pst->id; ?>">Edit</button>
@@ -34,7 +36,7 @@
     <?php endforeach;
     else: ?>
         <tr>
-            <td colspan="4" style="text-align:center;">Tidak ada data</td>
+            <td colspan="5" style="text-align:center;">Tidak ada data</td>
         </tr>
     <?php endif; ?>
 

@@ -361,7 +361,15 @@ if ($action_access) {
 
             switch ($_action) {
                 case 'tambah':
-                
+
+                    // check data (validasi duplikasi data)
+                    $results = $db->get_results("SELECT * FROM $table WHERE tanggal='$tanggal' AND id_ekskul='$id_ekskul'");
+                    if (count($results) >= 1) {
+                        echo "Gagal menyimpan data karena data presensi tanggal ". date('d F Y', strtotime($tanggal))." sudah ada.#danger";
+                        die();
+                    }
+                    
+                    // simpan data presensi ke db
                     for ($i=0; $i < count($_POST); $i++) {
                         $arr_name = 'peserta_'.$i;
 

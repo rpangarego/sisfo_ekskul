@@ -1,5 +1,5 @@
 <?php require '../functions.php';
-    if (!isset($_SESSION['userid'])) redirect_js('login');
+    // if (!isset($_SESSION['userid'])) redirect_js('../../login');
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Report</title>
+    <title>Cetak Laporan</title>
 
   <link rel="stylesheet" href="../../assets/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="../../assets/css/all.min.css" type="text/css">
@@ -22,47 +22,43 @@
         <div class="col-md-8 mx-auto">
             <div class="card">
                 <div class="card-header">
-                    <h1 align="center">Print Students Data Report</h1>
+                    <h1 align="center">Cetak Laporan</h1>
                 </div>
                 <div class="card-body">
                 
                 <form action="generate_report" method="POST">
                     <div class="row">
-                        <div class="col-md-12 col-lg-4">
+                        <div class="col-md-12 col-lg-6" id="form_laporan">
                         <div class="form-group">
-                            <label for="student">Student</label>
-                            <select name="student" id="student" class="custom-select">
-                                <option value="all">All</option>
-                                <?= getStudentOptions() ?>
+                            <label for="laporan">Laporan</label>
+                            <select name="laporan" id="laporan" class="custom-select">
+                                <option value="ekskul">Ekstrakurikuler</option>
+                                <!-- <option value="presensi">Presensi</option> -->
                             </select>
                         </div>
                         </div>
 
-                        <div class="col-md-12 col-lg-4">
+                        <div class="col-md-12 col-lg-6" id="form_ekskul">
                         <div class="form-group">
-                            <label for="gender">Gender</label>
-                            <select name="gender" id="gender" class="custom-select">
-                                <option value="all">All</option>
-                                <option value="1">Male</option>
-                                <option value="2">Female</option>
+                            <label for="ekskul">Ekstrakurikuler</label>
+                            <select name="ekskul" id="ekskul" class="custom-select">
+                                <?= getEkskulOptions() ?>
                             </select>
                         </div>
                         </div>
 
-                        <div class="col-md-12 col-lg-4">
+                        <!-- <div class="col-md-12 col-lg-4" id="form_date">
                         <div class="form-group">
-                            <label for="major">Major</label>
-                            <select name="major" id="major" class="custom-select">
-                                <option value="all">All</option>
-                                <?= getMajorOptions() ?>
-                            </select>
+                            <label for="laporan">Bulan - Tahun</label>
+                            <input id="bulan_tahun" type="month" name="bulan_tahun" value="<?= date('Y-m') ?>" class="form-control">
                         </div>
-                        </div>
+                        </div> -->
                     </div>
+
                     <div class="row">
                         <div class="col-12 d-flex justify-content-end">
-                        <button class="btn btn-secondary" onclick="window.close()">Close</button>
-                        <button type="button" id="preview-report" class="btn btn-secondary">Preview</button>
+                        <button class="btn btn-secondary" onclick="window.close()">Tutup</button>
+                        <button type="button" id="preview-report" class="btn btn-secondary">Lihat Data</button>
                         <button type="submit" id="print-report" class="btn btn-primary">Print</button>
                         </div>
                     </div>
@@ -78,5 +74,6 @@
 
     <script src="../../assets/js/jquery-3.6.0.js"></script>
     <script src="../../assets/js/script.js"></script>
+    <script src="print_script.js"></script>
 </body>
 </html>

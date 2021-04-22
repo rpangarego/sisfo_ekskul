@@ -3,67 +3,42 @@
 	require_once '../functions.php';
 	require_once '../../vendor/autoload.php';
 
-    $where = [];
-
-    if (isset($_POST["student"])) {
-        if ($_POST["student"] != 'all') {
-            $where_student .= "st.id=".$_POST["student"];
-            array_push($where, $where_student);
+    if (isset($_POST["laporan"])) {
+        if ($_POST["laporan"] == 'ekskul') {
+            $query = "SELECT ex.*, sw.nama as nama_peserta, sw.kelas, pgr.nama as pengurus FROM ekskul ex LEFT JOIN peserta ps ON ps.id_ekskul=ex.id LEFT JOIN siswa sw ON ps.id_siswa=sw.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id WHERE ex.id='$_POST[ekskul]'";
         }
     }
 
-    if (isset($_POST["gender"])) {
-        if ($_POST["gender"] != 'all') {
-            $where_gender .= "st.gender=".$_POST["gender"];
-            array_push($where, $where_gender);
-        }
-    }
+    $results = $db->get_results($query);
 
-    if (isset($_POST["major"])) {
-        if ($_POST["major"] != 'all') {
-            $where_major .= "mj.id=".$_POST["major"];
-            array_push($where, $where_major);
-        }
-    }
+    $judul = ($_POST["laporan"] == 'ekskul') ? 'Ekstrakurikuler' : 'Presensi';
 
-    if (count($where) > 0) {
-        $where = " WHERE ". join(" AND ",$where);
-    }else{
-        $where = "";
-    }
+	$html = '<h2 style="text-align:center;">Laporan '.$judul.'</h2><br>';
 
-    $query = "SELECT st.*, mj.major, fd.menu, fd.category FROM students st LEFT JOIN majors mj ON mj.id=st.major_id LEFT JOIN foods fd ON fd.id=st.food_id $where ORDER BY created_at DESC";
-
-    $students = $db->get_results($query);
-	$html = '<h2 style="text-align:center;">Students Data Report</h2><br>';
-
-    $html .= '<p style="text-align:center;">Printed @: '.date('d M Y H:i:s').'</p><table class="table" border="1" cellpadding="6" cellspacing="0" style="margin: 0 auto;"><thead>
-        <tr>
-            <th class="border-top-0">No</th>
-            <th class="border-top-0">Full Name</th>
-            <th class="border-top-0">Birth</th>
-            <th class="border-top-0">Gender</th>
-            <th class="border-top-0">City</th>
-            <th class="border-top-0">Major</th>
-            <th class="border-top-0">Fav Menu</th>
-        </tr>
-    </thead><tbody>';
+    $html .= '<p style="text-align:center;">Cetak tanggal: '.date('d M Y H:i:s').'</p><table class="table" border="1" cellpadding="6" cellspacing="0" style="margin: 0 auto;">
+        <thead>
+                <tr><th>Ekstrakurikuler</th><th>:</th><th>'.$results[0]->nama.'</th></tr>
+                <tr><th>Jadwal</th><th>:</th><th>'.$results[0]->jadwal.'</th></tr>
+                <tr><th>Pengurus</th><th>:</th><th>'.$results[0]->pengurus.'</th></tr><tr><td colspan="3"></td></tr>
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Nama Peserta</th>
+                    <th scope="col">Kelas</th>
+                </tr>
+            </thead><tbody>';
 
 $html .= $query;
-    if (count($students) < 1) {
-        $html .= '<tr><td colspan="8" style="text-align:center;">No data</td></tr>';
+
+    if (count($results) <= 2) {
+        $html .= '<tr><td colspan="3" style="text-align:center;">Tidak ada data</td></tr>';
     }else{
-        foreach ($students as $student) {
+        foreach ($results as $result) {
             $birth  = $student->birth_place.', '. date("d M Y", strtotime($student->birth_date));
             $gender = ($student->gender == 1) ? 'Male' : 'Female';
             $html .= '<tr>
                         <td>'.++$i.'</td>
-                        <td>'.$student->full_name.'</td>
-                        <td>'.$birth.'</td>
-                        <td>'.$gender.'</td>
-                        <td>'.$student->city.'</td>
-                        <td>'.$student->major.'</td>
-                        <td>['.$student->category.'] '.$student->menu.'</td>
+                        <td>'.$result->nama_peserta.'</td>
+                        <td>'.$result->kelas.'</td>
                     </tr>';
         }
     }

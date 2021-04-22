@@ -7,6 +7,12 @@
     </div>
 <?php endif ?>
 
+    <?php if ($_SESSION['status'] == 'kepsek' || $_SESSION['status'] == 'wakepsek'): ?>
+        <div class="buttons mb-4 d-flex justify-content-end">
+            <a href="inc/reports/print_report" class="btn btn-secondary" target="_blank">Cetak Laporan</a>
+        </div>
+    <?php endif ?>
+
 <table border="1" cellspacing="0" cellpadding="0" id="data-table">
     <thead>
         <tr>
@@ -14,11 +20,8 @@
             <th>Tanggal</th>
             <th>Eksktrakurikuler</th>
             <th>Pengurus</th>
-            <th>Jumlah yang hadir</th>
-
-            <?php if ($_SESSION['status'] == 'pengurus'): ?>
-                <th>Aksi</th>
-            <?php endif ?>
+            <th>Peserta yang hadir</th>
+            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -38,7 +41,7 @@
             <td><?= date('d F Y', strtotime($prs->tanggal)); ?></td>
             <td><?= $prs->ekskul; ?></td>
             <td><?= $prs->pengurus; ?></td>
-            <td><?= $prs->siswa_hadir; ?></td>
+            <td><?= $prs->siswa_hadir; ?> Orang</td>
             <td>
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalPresensi<?=$no?>">Detail</button>
 

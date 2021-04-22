@@ -82,28 +82,6 @@ $(document).ready(function() {
         }
     });
 
-    // preview report
-    $("#preview-report").click(function(e){
-        e.preventDefault();
-
-        var student = $("#student").val();
-        var gender = $("#gender").val();
-        var major = $("#major").val();
-
-        $.ajax({
-            url: "preview_report.php",
-            type: 'POST',
-            data: {
-                student: student,
-                gender: gender,
-                major: major
-            },
-            success: function(res) {
-                $("#preview-data").html(res);
-            }
-        });
-    });
-
     // update profile
     $("#update-profile-form").submit(function(e){
         e.preventDefault();

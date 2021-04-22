@@ -1,10 +1,16 @@
-<?php 
-    session_start();
-    if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
-    <div class="buttons mb-4 d-flex justify-content-end">
-        <button id="add-button" class="btn btn-primary mr-3">Tambah</button>
-    </div>
-<?php endif ?>
+    <?php 
+        session_start();
+        if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
+        <div class="buttons mb-4 d-flex justify-content-end">
+            <button id="add-button" class="btn btn-primary mr-3">Tambah</button>
+        </div>
+    <?php endif ?>
+
+    <?php if ($_SESSION['status'] == 'kepsek' || $_SESSION['status'] == 'wakepsek'): ?>
+        <div class="buttons mb-4 d-flex justify-content-end">
+            <a href="inc/reports/print_report" class="btn btn-secondary" target="_blank">Cetak Laporan</a>
+        </div>
+    <?php endif ?>
 
 <table border="1" cellspacing="0" cellpadding="0" id="data-table" class="table-hover">
     <thead>
