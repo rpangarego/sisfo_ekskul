@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 22, 2021 at 09:50 AM
+-- Generation Time: Apr 23, 2021 at 03:15 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -138,7 +138,16 @@ INSERT INTO `peserta` (`id`, `id_ekskul`, `id_siswa`) VALUES
 (7, 1, '1011'),
 (9, 1, '1016'),
 (10, 3, '1011'),
-(11, 7, '1011');
+(11, 7, '1011'),
+(12, 1, '1012'),
+(13, 1, '1013'),
+(14, 1, '1014'),
+(15, 1, '1015'),
+(16, 1, '1017'),
+(17, 1, '1019'),
+(18, 3, '1013'),
+(19, 3, '1017'),
+(20, 3, '1018');
 
 -- --------------------------------------------------------
 
@@ -160,7 +169,8 @@ CREATE TABLE `postingan` (
 --
 
 INSERT INTO `postingan` (`id`, `judul`, `isi`, `tanggal`, `id_pengurus`, `id_ekskul`) VALUES
-(1, 'Ekskul Pramuka minggu ini ditiadakan', 'Berhubungan dengan acara XXX yang dilaksanakan bertepatan pada hari Jumat, maka ekstrakurikuler pada hari Jumat tanggal 10 - mm - 2020 ditiadakan. \r\nDiadakan kembali pada tanggal 17 - mm - 2020', '2021-04-22', '1002', 1);
+(1, 'Ekskul Pramuka minggu ini ditiadakan', 'Berhubungan dengan acara XXX yang dilaksanakan bertepatan pada hari Jumat, maka ekstrakurikuler pada hari Jumat tanggal 10 - mm - 2020 ditiadakan. \r\nDiadakan kembali pada tanggal 17 - mm - 2020', '2021-04-22', '1002', 1),
+(3, 'Pemilihan Ketua Ekskul PMR', 'Akan diadakan pemilihan ketua ekskul PMR. Bagi yang ingin mencalonkan diri menjadi ketua ekskul PMR dapat keruang ekskul PMS pada jam istirahat.\r\nTerima kasih.', '2021-04-22', '1004', 3);
 
 -- --------------------------------------------------------
 
@@ -175,6 +185,58 @@ CREATE TABLE `presensi` (
   `id_siswa` varchar(5) NOT NULL,
   `id_ekskul` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `presensi`
+--
+
+INSERT INTO `presensi` (`id`, `tanggal`, `hadir`, `id_siswa`, `id_ekskul`) VALUES
+(25, '2021-04-02', 'ya', '1016', 1),
+(26, '2021-04-02', 'ya', '1011', 1),
+(27, '2021-04-02', 'ya', '1017', 1),
+(28, '2021-04-02', 'ya', '1012', 1),
+(29, '2021-04-02', 'ya', '1013', 1),
+(30, '2021-04-02', 'ya', '1014', 1),
+(31, '2021-04-02', 'ya', '1019', 1),
+(32, '2021-04-02', 'ya', '1015', 1),
+(33, '2021-04-09', 'ya', '1016', 1),
+(34, '2021-04-09', 'ya', '1011', 1),
+(35, '2021-04-09', 'ya', '1012', 1),
+(36, '2021-04-09', 'ya', '1013', 1),
+(37, '2021-04-09', 'ya', '1014', 1),
+(38, '2021-04-09', 'ya', '1015', 1),
+(39, '2021-04-16', 'ya', '1016', 1),
+(40, '2021-04-16', 'ya', '1011', 1),
+(41, '2021-04-16', 'ya', '1012', 1),
+(42, '2021-04-16', 'ya', '1014', 1),
+(43, '2021-04-16', 'ya', '1015', 1),
+(44, '2021-04-23', 'ya', '1016', 1),
+(45, '2021-04-23', 'ya', '1011', 1),
+(46, '2021-04-23', 'ya', '1017', 1),
+(47, '2021-04-23', 'ya', '1012', 1),
+(48, '2021-04-23', 'ya', '1013', 1),
+(49, '2021-04-23', 'ya', '1014', 1),
+(50, '2021-04-23', 'ya', '1019', 1),
+(51, '2021-04-23', 'ya', '1015', 1),
+(52, '2021-04-30', 'ya', '1016', 1),
+(53, '2021-04-30', 'ya', '1011', 1),
+(54, '2021-04-30', 'ya', '1017', 1),
+(55, '2021-04-30', 'ya', '1012', 1),
+(56, '2021-04-30', 'ya', '1013', 1),
+(57, '2021-04-30', 'ya', '1014', 1),
+(58, '2021-04-30', 'ya', '1019', 1),
+(59, '2021-04-30', 'ya', '1015', 1),
+(61, '2021-04-06', 'ya', '1011', 3),
+(62, '2021-04-06', 'ya', '1013', 3),
+(63, '2021-04-06', 'ya', '1018', 3),
+(64, '2021-04-13', 'ya', '1011', 3),
+(65, '2021-04-13', 'ya', '1017', 3),
+(66, '2021-04-13', 'ya', '1013', 3),
+(67, '2021-04-13', 'ya', '1018', 3),
+(68, '2021-04-20', 'ya', '1011', 3),
+(69, '2021-04-20', 'ya', '1017', 3),
+(70, '2021-04-20', 'ya', '1013', 3),
+(71, '2021-04-20', 'ya', '1018', 3);
 
 -- --------------------------------------------------------
 
@@ -266,19 +328,19 @@ ALTER TABLE `ekskul`
 -- AUTO_INCREMENT for table `peserta`
 --
 ALTER TABLE `peserta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `postingan`
 --
 ALTER TABLE `postingan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `presensi`
 --
 ALTER TABLE `presensi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

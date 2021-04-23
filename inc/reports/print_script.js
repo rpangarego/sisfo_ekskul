@@ -5,8 +5,15 @@ $(document).ready(function() {
 		const laporan = e.target.value;
 		if (laporan === 'presensi') {
 			$("#form_date").show();
+
+            $("#form_laporan").removeClass("col-lg-6").addClass("col-lg-4");
+            $("#form_ekskul").removeClass("col-lg-6").addClass("col-lg-4");
+
 		} else {
 			$("#form_date").hide();
+
+            $("#form_laporan").removeClass("col-lg-4").addClass("col-lg-6");
+            $("#form_ekskul").removeClass("col-lg-4").addClass("col-lg-6");
 		}
 
         getEkskulDate();
