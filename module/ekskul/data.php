@@ -19,7 +19,11 @@
             <th>Eksktrakurikuler</th>
             <th>Jadwal</th>
             <th>Pengurus</th>
+
+            <?php if ($_SESSION['status'] != 'siswa') : ?>
             <th>Jumlah Peserta</th>
+            <?php endif ?>
+
             <th>Wajib</th>
 
             <?php if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
@@ -45,7 +49,11 @@
             <td><?= $eks->nama; ?></td>
             <td><?= $eks->jadwal; ?></td>
             <td><?= $eks->nama_pengurus; ?></td>
+
+            <?php if ($_SESSION['status'] != 'siswa') : ?>
             <td align="center"><?= $eks->jml_peserta; ?></td>
+            <?php endif ?>
+            
             <td><?= ucwords($eks->wajib); ?></td>
 
             <?php if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
