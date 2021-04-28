@@ -20,8 +20,11 @@
             <th>Tanggal</th>
             <th>Eksktrakurikuler</th>
             <th>Pengurus</th>
-            <th>Peserta yang hadir</th>
-            <th>Aksi</th>
+
+            <?php if ($_SESSION['status'] != 'siswa') : ?>
+                <th>Peserta yang hadir</th>
+                <th>Aksi</th>
+            <?php endif ?>
         </tr>
     </thead>
     <tbody>
@@ -34,6 +37,8 @@
 
     $presensi = $db->get_results("SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, count(pr.id_siswa) as siswa_hadir FROM presensi pr LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id $where GROUP BY pr.tanggal, pr.id_ekskul ORDER BY pr.id_ekskul, pr.tanggal DESC");
 
+    // echo "SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, count(pr.id_siswa) as siswa_hadir FROM presensi pr LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id $where GROUP BY pr.tanggal, pr.id_ekskul ORDER BY pr.id_ekskul, pr.tanggal DESC";
+
     if ($presensi) :
        foreach ($presensi as $prs) : ?>
         <tr>
@@ -41,6 +46,8 @@
             <td><?= date('d F Y', strtotime($prs->tanggal)); ?></td>
             <td><?= $prs->ekskul; ?></td>
             <td><?= $prs->pengurus; ?></td>
+
+            <?php if ($_SESSION['status'] != 'siswa') : ?>
             <td><?= $prs->siswa_hadir; ?> Orang</td>
             <td>
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalPresensi<?=$no?>">Detail</button>
@@ -48,7 +55,8 @@
                 <?php if ($_SESSION['status'] == 'pengurus'): ?>
                     <a href="actions?action=presensi_hapus&id_ekskul=<?= $prs->id_ekskul; ?>&tanggal=<?= $prs->tanggal; ?>" class="btn btn-sm btn-danger">Hapus</a>
                 <?php endif ?>
-                </td>
+            </td>
+            <?php endif; ?>
         </tr>
 
     <?php $no++; endforeach;
