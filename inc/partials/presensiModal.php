@@ -47,8 +47,24 @@ foreach ($presensi as $prs) : ?>
                 <?php } ?>
               </table>
 
-            <?php } elseif ($_SESSION['status'] == 'siswa') { ?>
-              <p>Total <?= count($detail_presensi).' kehadiran dari '.count($result).' pertemuan.' ?></p>
+            <?php } elseif ($_SESSION['status'] == 'siswa') { 
+              $persentase = (count($detail_presensi) / count($result))*100;
+
+              if ($persentase >= 80) {
+                $grade = 'A';
+              } elseif ($persentase >= 75) {
+                $grade = 'B';
+              } elseif ($persentase >= 60) {
+                $grade = 'C';
+              } elseif ($persentase >= 45) {
+                $grade = 'D';
+              } else {
+                $grade = 'E';
+              }
+
+              $detail_kehadiran = count($detail_presensi).' kehadiran dari '.count($result).' pertemuan.<br> Kehadiran <strong>'.$persentase.'%</strong> Peringkat: <strong>'.$grade.'</strong>';
+              ?>
+              <p>Total <?= $detail_kehadiran ?></p>
 
               <table class="table table-bordered">
                   <tr>

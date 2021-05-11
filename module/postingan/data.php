@@ -24,13 +24,13 @@
         }
 
         // WHERE id_ekskul='xxxx' OR id_ekskul='yyyy' or id_ekskul='zzzz'
-        $where = "WHERE ".join(" OR ", $where_parameter);
+        $where = "WHERE ".join(" OR ", $where_parameter)." AND kategori='pengumuman'";
    }
 
    $no=1;
    $postingan = $db->get_results("SELECT p.*, e.nama AS ekskul, pg.nama AS pengurus FROM postingan p 
                         LEFT JOIN ekskul e ON p.id_ekskul=e.id 
-                        LEFT JOIN pengurus pg ON p.id_pengurus=pg.id $where ORDER BY p.tanggal DESC");
+                        LEFT JOIN pengurus pg ON p.id_pengurus=pg.id $where ORDER BY p.kategori,p.tanggal DESC");
 
 
     if ($_SESSION['status'] != 'siswa' && $_SESSION['status'] != 'kepsek'): ?>
@@ -41,6 +41,7 @@
                     <th>Tanggal</th>
                     <th>Judul</th>
                     <th>Eksktrakurikuler</th>
+                    <th>Kategori</th>
                     <th>Oleh</th>
 
                     <?php if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
@@ -58,6 +59,7 @@
                     <td><?= date('d F Y', strtotime($post->tanggal)); ?></td>
                     <td><?= $post->judul; ?></td>
                     <td><?= $post->ekskul; ?></td>
+                    <td><?= ($post->kategori) ? ucwords($post->kategori) : '-'; ?></td>
                     <td><?= $post->pengurus; ?></td>
 
                     <?php if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
@@ -70,9 +72,7 @@
                 </tr>
             <?php endforeach;
             else: ?>
-                <tr>
-                    <td colspan="6" style="text-align:center;">Tidak ada data</td>
-                </tr>
+                <tr><td colspan="6" style="text-align:center;">Tidak ada data</td></tr>
             <?php endif; ?>
 
             </tbody>

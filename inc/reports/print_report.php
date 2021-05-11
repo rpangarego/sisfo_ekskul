@@ -26,8 +26,8 @@
                 </div>
                 <div class="card-body">
                 
-                <form action="generate_report" method="POST">
-                    <input type="hidden" name="token" id="token" value="<?= $_SESSION['token'] ?>">
+                <form action="preview_report" method="POST">
+                    <input type="hidden" name="export_excel" id="export_excel" value="true">
                     <div class="row">
                         <div class="col-md-12 col-lg-6" id="form_laporan">
                         <div class="form-group">
@@ -35,6 +35,7 @@
                             <select name="laporan" id="laporan" class="custom-select">
                                 <option value="ekskul">Ekstrakurikuler</option>
                                 <option value="presensi">Presensi</option>
+                                <option value="agenda">Agenda</option>
                             </select>
                         </div>
                         </div>
@@ -42,7 +43,7 @@
                         <div class="col-md-12 col-lg-6" id="form_ekskul">
                         <div class="form-group">
                             <label for="ekskul">Ekstrakurikuler</label>
-                            <select name="ekskul" id="ekskul" class="custom-select">
+                            <select name="id_ekskul" id="ekskul" class="custom-select">
                                 <?= getEkskulOptions() ?>
                             </select>
                         </div>
@@ -50,7 +51,7 @@
 
                         <div class="col-md-12 col-lg-4" id="form_date">
                         <div class="form-group">
-                            <label for="laporan">Tanggal</label>
+                            <label for="tanggal">Tanggal</label>
                             <select name="tanggal" id="tanggal" class="custom-select">
                                 <option></option>
                             </select>

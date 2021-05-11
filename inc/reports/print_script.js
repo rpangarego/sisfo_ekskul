@@ -48,10 +48,10 @@ $(document).ready(function() {
 });
 
 function getEkskulDate() {
-    const laporan = $("#laporan").val();
-    const ekskul = $("#ekskul").val();
-    const token = $("#token").val();
-// console.log(laporan,ekskul);
+    const laporan   = $("#laporan").val();
+    const ekskul    = $("#ekskul").val();
+    const token     = $("#token").val();
+
     if (laporan === 'presensi') {
         $.ajax({
             url: '../../actions.php?action=presensi_tanggal',

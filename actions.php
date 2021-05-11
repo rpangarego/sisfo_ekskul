@@ -151,6 +151,8 @@ switch ($_GET['action']){
         $results = $db->get_results("SELECT tanggal FROM presensi WHERE id_ekskul='$id_ekskul' GROUP BY tanggal ORDER BY tanggal DESC");
 
         if (count($results) > 0 ) {
+            $date_options .= '<option value="semua">Semua</option>';
+            
             foreach ($results as $result) {
                 $date_options .= '<option value="'.$result->tanggal.'">'.date("d F Y", strtotime($result->tanggal)).'</option>';
             }
@@ -339,13 +341,14 @@ if ($action_access) {
             $id             = trim($_POST['id']);
             $tanggal        = trim($_POST['tanggal']);
             $judul          = trim($_POST['judul']);
+            $kategori       = trim($_POST['kategori']);
             $isi            = trim($_POST['isi']);
             $id_pengurus    = $_SESSION['userid'];
             $id_ekskul      = trim($_POST['ekskul']);
     
             switch ($_action) {
                 case 'tambah':
-                    $query = $db->query("INSERT INTO $table(id, judul, isi, tanggal, id_pengurus, id_ekskul) VALUES (NULL,'$judul','$isi','$tanggal',$id_pengurus,$id_ekskul)");
+                    $query = $db->query("INSERT INTO $table(id, judul, isi, kategori, tanggal, id_pengurus, id_ekskul) VALUES (NULL,'$judul','$isi','$kategori','$tanggal',$id_pengurus,$id_ekskul)");
     
                     echo "Data berhasil disimpan!#info";
                     break;
@@ -353,7 +356,7 @@ if ($action_access) {
                 case 'edit':
                     $ekskul = ($id_ekskul) ? ',id_ekskul='.$id_ekskul : ',id_ekskul=NULL';
 
-                    $query = $db->query("UPDATE $table SET judul='$judul', isi='$isi', tanggal='$tanggal' $ekskul WHERE id=$id");
+                    $query = $db->query("UPDATE $table SET judul='$judul', isi='$isi', tanggal='$tanggal', kategori='$kategori' WHERE id=$id");
     
                     echo "Data berhasil diupdate!#info";
                     break;

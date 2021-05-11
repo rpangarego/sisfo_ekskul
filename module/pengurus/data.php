@@ -8,6 +8,7 @@
             <th>No.</th>
             <th>Nama Pengurus</th>
             <th>No Telepon/Hp</th>
+            <th>Ekstrakurikuler</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -16,7 +17,7 @@
 
    require "../../inc/functions.php";
    $no=1;
-   $pengurus = $db->get_results("SELECT * FROM pengurus ORDER BY nama");
+   $pengurus = $db->get_results("SELECT pengurus.*, ekskul.nama AS nama_ekskul FROM pengurus LEFT JOIN ekskul ON pengurus.id=ekskul.id_pengurus ORDER BY pengurus.nama");
 
     if ($pengurus) :
        foreach ($pengurus as $pgr) : ?>
@@ -24,6 +25,7 @@
             <td><?= $no++; ?></td>
             <td><?= $pgr->nama; ?></td>
             <td><?= $pgr->nohp; ?></td>
+            <td><?= $pgr->nama_ekskul; ?></td>
             <td>
                 <button id="edit-button" class="btn btn-sm btn-warning" data-id="<?= $pgr->id; ?>">Edit</button>
                 <button id="delete-button" class="btn btn-sm btn-danger" data-id="<?= $pgr->id; ?>" data-action="pengurus_hapus" data-token="<?= $_SESSION['token'] ?>">Hapus</button>

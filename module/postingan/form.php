@@ -7,16 +7,17 @@
         $result=$db->get_row("SELECT * FROM postingan WHERE id='$id'");
     }
     
-    $id = (!empty($result->id)) ? $result->id : '';
-    $judul = (!empty($result->judul)) ? $result->judul : '';
-    $isi = (!empty($result->isi)) ? $result->isi : '';
-    $tanggal = (!empty($result->tanggal)) ? $result->tanggal : date("Y-m-d");
-    $id_pengurus = (!empty($result->id_pengurus)) ? $result->id_pengurus : '';
+    $id             = (!empty($result->id)) ? $result->id : '';
+    $tanggal        = (!empty($result->tanggal)) ? $result->tanggal : date("Y-m-d");
+    $judul          = (!empty($result->judul)) ? $result->judul : '';
+    $isi            = (!empty($result->isi)) ? $result->isi : '';
+    $kategori       = (!empty($result->kategori)) ? $result->kategori : '';
+    $id_pengurus    = (!empty($result->id_pengurus)) ? $result->id_pengurus : '';
     
-    $data_ekskul = $db->get_row("SELECT id FROM ekskul WHERE id_pengurus='$_SESSION[userid]'");
-    $id_ekskul = $data_ekskul->id;
+    $data_ekskul    = $db->get_row("SELECT id FROM ekskul WHERE id_pengurus='$_SESSION[userid]'");
+    $id_ekskul      = $data_ekskul->id;
 
-    $form_title = ($_GET['form_status'] == 'postingan_edit') ? 'EDIT DATA POSTINGAN' : 'TAMBAH DATA POSTINGAN';
+    $form_title     = ($_GET['form_status'] == 'postingan_edit') ? 'EDIT DATA POSTINGAN' : 'TAMBAH DATA POSTINGAN';
     echo "<h3 class='text-center'>$form_title</h3>";
 ?>
 
@@ -45,6 +46,14 @@
                 <label for="ekskul">Ekstrakurikuler</label>
                 <select class="custom-select" name="ekskul">
                     <?= getEkskulPengurusOptions($id_ekskul); ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="kategori">Kategori</label>
+                <select name="kategori" id="kategori" class="custom-select">
+                    <option value="pengumuman" <?= $kategori == 'pengumuman' ? 'selected' : '' ?> >Pengumuman</option>
+                    <option value="agenda" <?= $kategori == 'agenda' ? 'selected' : '' ?> >Agenda</option>
                 </select>
             </div>
             
