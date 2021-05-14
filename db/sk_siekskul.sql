@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 23, 2021 at 03:15 AM
+-- Generation Time: May 14, 2021 at 09:24 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -159,6 +159,7 @@ CREATE TABLE `postingan` (
   `id` int(11) NOT NULL,
   `judul` varchar(200) NOT NULL,
   `isi` text NOT NULL,
+  `kategori` varchar(50) DEFAULT NULL,
   `tanggal` date NOT NULL,
   `id_pengurus` varchar(5) DEFAULT NULL,
   `id_ekskul` int(11) DEFAULT NULL
@@ -168,9 +169,10 @@ CREATE TABLE `postingan` (
 -- Dumping data for table `postingan`
 --
 
-INSERT INTO `postingan` (`id`, `judul`, `isi`, `tanggal`, `id_pengurus`, `id_ekskul`) VALUES
-(1, 'Ekskul Pramuka minggu ini ditiadakan', 'Berhubungan dengan acara XXX yang dilaksanakan bertepatan pada hari Jumat, maka ekstrakurikuler pada hari Jumat tanggal 10 - mm - 2020 ditiadakan. \r\nDiadakan kembali pada tanggal 17 - mm - 2020', '2021-04-22', '1002', 1),
-(3, 'Pemilihan Ketua Ekskul PMR', 'Akan diadakan pemilihan ketua ekskul PMR. Bagi yang ingin mencalonkan diri menjadi ketua ekskul PMR dapat keruang ekskul PMS pada jam istirahat.\r\nTerima kasih.', '2021-04-22', '1004', 3);
+INSERT INTO `postingan` (`id`, `judul`, `isi`, `kategori`, `tanggal`, `id_pengurus`, `id_ekskul`) VALUES
+(1, 'Ekskul Pramuka minggu ini ditiadakan', 'Berhubungan dengan acara XXX yang dilaksanakan bertepatan pada hari Jumat, maka ekstrakurikuler pada hari Jumat tanggal 10 - mm - 2020 ditiadakan. \r\nDiadakan kembali pada tanggal 17 - mm - 2020', 'pengumuman', '2021-04-22', '1002', 1),
+(3, 'Pemilihan Ketua Ekskul PMR', 'Akan diadakan pemilihan ketua ekskul PMR. Bagi yang ingin mencalonkan diri menjadi ketua ekskul PMR dapat keruang ekskul PMS pada jam istirahat.\r\nTerima kasih.', '', '2021-04-22', '1004', 3),
+(4, 'Testing agenda', 'isi agenda edited', 'agenda', '2021-05-11', '1002', 1);
 
 -- --------------------------------------------------------
 
@@ -334,7 +336,7 @@ ALTER TABLE `peserta`
 -- AUTO_INCREMENT for table `postingan`
 --
 ALTER TABLE `postingan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `presensi`
