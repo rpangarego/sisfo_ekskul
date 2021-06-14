@@ -1,18 +1,4 @@
 <?php
-
-function generate_token(){
-  $token = time().'_'.uniqid().'_'.rand(10000,99999);
-  return $token;
-}
-
-function check_token($user_token){
-  if ($_SESSION["token"]==$user_token) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 function set_last_activity(){
   if (isset($_SESSION['userid'])) {
     $_SESSION['LAST_ACTIVITY'] = date("Y-m-d H:i:s");
@@ -33,7 +19,6 @@ function check_last_activity(){
       exit;
     }
   }
-
   set_last_activity();
 }
 
@@ -76,7 +61,7 @@ function print_error($msg){
         <link href="../assets/css/united-bootstrap.min.css" rel="stylesheet"/>
         <body>
             <div class="container" style="margin:20px auto; width:400px">
-                <p class="alert alert-warning">'.$msg.' <a href="javascript:history.back(-1)">Kembali</a></p>                
+                <p class="alert alert-warning">'.$msg.' <a href="javascript:history.back(-1)">Kembali</a></p>
             </div>
         </body>
     </html>');
@@ -84,10 +69,10 @@ function print_error($msg){
 
 function tgl_indo($date){
     $tanggal = explode('-', $date);
-    
+
     $array_bulan = array( 1=>'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
     $bulan = $array_bulan[$tanggal[1]*1];
-    
+
     return $tanggal[2] .' '. $bulan .' '. $tanggal[0];
 }
 
@@ -146,8 +131,8 @@ function getMonthInd($month){
             break;
         case 11:
             $month = 'November';
-            break;        
-        
+            break;
+
         default:
             $month = 'Desember';
             break;

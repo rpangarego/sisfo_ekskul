@@ -1,5 +1,5 @@
 <?php
-error_reporting(~E_NOTICE);
+error_reporting(0);
 session_start();
 date_default_timezone_set('Asia/Jakarta');
 
@@ -134,7 +134,7 @@ function uploadFoto(){
 
     // Cek ukuran file
     //Jika lebih dari 2MB atau error code 1: The uploaded file exceeds the upload_max_filesize
-    if ($ukuranfile > 2000000 || $error === 1) { 
+    if ($ukuranfile > 2000000 || $error === 1) {
         echo "<script> alert('Ukuran file terlalu besar!') </script>";
         return false;
     }
