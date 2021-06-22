@@ -1,4 +1,4 @@
-<?php 
+<?php
     require_once '../functions.php';
 
     $pre_judul = 'Preview Laporan';
@@ -25,30 +25,30 @@
     if (isset($_POST["laporan"])) {
         if ($_POST["laporan"] == 'ekskul') {
             $query = "SELECT ex.*, sw.nama as nama_peserta, sw.kelas, pgr.nama as pengurus FROM ekskul ex LEFT JOIN peserta ps ON ps.id_ekskul=ex.id LEFT JOIN siswa sw ON ps.id_siswa=sw.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id WHERE ex.id='$_POST[id_ekskul]'";
-        
+
         } elseif ($_POST["laporan"] == 'presensi') {
             if ($_POST['tanggal'] == 'semua') {
-                $query = "SELECT pr.*, count(pr.id) AS siswa_hadir, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, sw.nama as nama_siswa, sw.kelas as kelas_siswa FROM presensi pr 
-                    LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id 
-                    LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id 
+                $query = "SELECT pr.*, count(pr.id) AS siswa_hadir, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, sw.nama as nama_siswa, sw.kelas as kelas_siswa FROM presensi pr
+                    LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id
+                    LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id
                     LEFT JOIN siswa sw ON pr.id_siswa=sw.id WHERE
                     pr.id_ekskul='$_POST[id_ekskul]' GROUP BY pr.tanggal ORDER BY pr.tanggal,sw.nama ASC";
             } else {
-                $query = "SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, sw.nama as nama_siswa, sw.kelas as kelas_siswa FROM presensi pr 
-                    LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id 
-                    LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id 
+                $query = "SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, sw.nama as nama_siswa, sw.kelas as kelas_siswa FROM presensi pr
+                    LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id
+                    LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id
                     LEFT JOIN siswa sw ON pr.id_siswa=sw.id
                     WHERE pr.tanggal='$_POST[tanggal]' AND pr.id_ekskul='$_POST[id_ekskul]' ORDER BY sw.nama ASC";
             }
         } elseif ($_POST["laporan"] == 'agenda') {
             $query = "SELECT ex.nama AS ekskul, ex.jadwal, pgr.nama AS pengurus, pst.kategori, pst.judul, pst.isi, pst.tanggal
-                    FROM ekskul ex 
+                    FROM ekskul ex
                     JOIN pengurus pgr ON ex.id_pengurus=pgr.id
                     JOIN postingan pst ON ex.id=pst.id_ekskul
-                WHERE pst.kategori='agenda' AND ex.id='$_POST[id_ekskul]' 
-                GROUP BY ex.id ORDER BY pst.tanggal" ;
+                WHERE pst.kategori='agenda' AND ex.id='$_POST[id_ekskul]'
+                ORDER BY pst.tanggal" ;
         }
-    } 
+    }
 
     $results = $db->get_results($query);
 ?>
@@ -78,7 +78,7 @@
                 </tr>
             </thead>
             <tbody>
-                
+
                 <?php if (count($results) >= 2): ?>
                     <?php foreach ($results as $result): ?>
                         <tr>
@@ -94,7 +94,7 @@
             </tbody>
 
         <?php } elseif ($_POST["laporan"] == 'presensi') { ?>
-            
+
             <!-- PREVIEW TABEL PRESENSI -->
                 <thead>
                     <tr>
@@ -150,10 +150,10 @@
                     <?php endforeach ?>
                 <?php else: ?>
                     <tr><td class="text-center" colspan="4">Tidak ada data</td></tr>
-                <?php endif ?> 
+                <?php endif ?>
 
             </tbody>
-        
+
         <?php } elseif ($_POST["laporan"] == 'agenda') { ?>
             <thead>
                 <tr>
@@ -174,7 +174,7 @@
                 </tr>
             </thead>
             <tbody>
-                
+
                 <?php if (count($results) > 0): ?>
                     <?php foreach ($results as $result): ?>
                         <tr>

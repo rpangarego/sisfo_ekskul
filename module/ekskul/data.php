@@ -1,16 +1,19 @@
-    <?php 
+<div class="buttons mb-4 d-flex justify-content-end">
+    <?php
         session_start();
         if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
-        <div class="buttons mb-4 d-flex justify-content-end">
             <button id="add-button" class="btn btn-primary mr-3">Tambah</button>
-        </div>
-    <?php endif ?>
+        <?php endif ?>
+
+        <?php if ($_SESSION['status'] == 'siswa'): ?>
+            <a href="index?m=daftar_ekskul" class="btn btn-primary mr-3">Daftar Eksktrakurikuler</a>
+        <?php endif ?>
+
 
     <?php if ($_SESSION['status'] == 'kepsek' || $_SESSION['status'] == 'wakepsek'): ?>
-        <div class="buttons mb-4 d-flex justify-content-end">
-            <a href="inc/reports/print_report" class="btn btn-secondary" target="_blank">Cetak Laporan</a>
-        </div>
+        <a href="inc/reports/print_report" class="btn btn-secondary" target="_blank">Cetak Laporan</a>
     <?php endif ?>
+</div>
 
 <table border="1" cellspacing="0" cellpadding="0" id="data-table" class="table-hover">
     <thead>
@@ -29,11 +32,11 @@
             <?php if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
                 <th>Aksi</th>
             <?php endif ?>
-            
+
         </tr>
     </thead>
     <tbody>
-    
+
     <?php
     require "../../inc/functions.php";
 
@@ -53,7 +56,7 @@
             <?php if ($_SESSION['status'] != 'siswa') : ?>
             <td align="center"><?= $eks->jml_peserta; ?></td>
             <?php endif ?>
-            
+
             <td><?= ucwords($eks->wajib); ?></td>
 
             <?php if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>

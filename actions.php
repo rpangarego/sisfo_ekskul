@@ -49,12 +49,12 @@ switch ($_GET['action']){
         $temp = "images/upload/";
         if (!file_exists($temp)) mkdir($temp);
 
-        $filename       = $_POST['newfilename'];
-        $fileupload     = $_FILES['fileupload']['tmp_name'];
-        $ImageName      = $_FILES['fileupload']['name'];
-        $ImageType      = $_FILES['fileupload']['type'];
+        $filename   = $_POST['newfilename'];
+        $fileupload = $_FILES['fileupload']['tmp_name'];
+        $ImageName  = $_FILES['fileupload']['name'];
+        $ImageType  = $_FILES['fileupload']['type'];
 
-        if (!empty($fileupload)){
+        if (!empty($fileupload)) {
             move_uploaded_file($_FILES["fileupload"]["tmp_name"], $temp.$filename); // Menyimpan file
             echo "File uploaded successfully#info"; //<message>_<alert-style>
         } else {
@@ -85,7 +85,6 @@ switch ($_GET['action']){
             echo "Password tidak sama!#danger";
             exit;
         }
-
         break;
 
     // RESET PASSWORD
@@ -119,7 +118,6 @@ switch ($_GET['action']){
             echo "Update gagal. Username tidak tersedia.#danger";
             exit;
         }
-
         break;
 
     // RESET PASSWORD
@@ -147,8 +145,24 @@ switch ($_GET['action']){
         } else {
             $date_options = '<option></option>';
         }
-
         echo $date_options;
+        break;
+
+    case 'daftar_ekskul':
+        $result_ekskul = $db->get_row("SELECT nama FROM ekskul WHERE id=$_POST[id_ekskul]");
+        $result = $db->get_row("SELECT id FROM peserta WHERE id_ekskul=$_POST[id_ekskul] AND id_siswa=$_SESSION[userid]");
+
+        // var_dump($result);
+
+        if ($result) {
+            echo "<script>alert('Gagal daftar ekstrakurikuler ".$result_ekskul->nama." karena sudah terdaftar!')</script>";
+            redirect_js('index?m=ekskul');
+        } else {
+            $db->query("INSERT INTO peserta(id, id_ekskul, id_siswa) VALUES (NULL,$_POST[id_ekskul],$_SESSION[userid])");
+            echo "<script>alert('Berhasil daftar ekstrakurikuler $result_ekskul->nama')</script>";
+            redirect_js('index?m=ekskul');
+        }
+
         break;
 }
 
