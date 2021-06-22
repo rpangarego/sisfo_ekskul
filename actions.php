@@ -11,11 +11,14 @@ switch ($_GET['action']){
     case 'check_login':
         $username	= $_POST['username'];
         $password	= $_POST['password'];
+        $user_real_name = '';
 
         $result = $db->get_row("SELECT * FROM pengguna WHERE (id='$username' OR username='$username') AND password='$password'");
 
         if ($result->status == 'siswa') {
-            $siswa = $db->get_row("SELECT * FROM peserta WHERE id_siswa='$result->id' GROUP BY id_siswa");
+            $siswa = $db->get_row("SELECT peserta.*, siswa.nama FROM peserta LEFT JOIN siswa ON peserta.id_siswa=siswa.id WHERE id_siswa='$result->id' GROUP BY id_siswa");
+            $user_real_name = $siswa->nama;
+
 
             if (!$siswa) {
                 echo 'Tidak dapat login karena tidak mengikuti ekstrakurikuler.';
@@ -23,9 +26,14 @@ switch ($_GET['action']){
             }
         }
 
+        if ($result->status == 'pengurus') {
+            $pengurus = $db->get_row("SELECT * FROM pengurus WHERE id='$username'");
+            $user_real_name = $pengurus->nama;
+        }
+
         if ($result) {
             $_SESSION['userid']     = $result->id;
-            $_SESSION['username']   = $result->username;
+            $_SESSION['username']   = ($result->status == 'siswa' || $result->status == 'pengurus') ? $user_real_name : $result->username;
             $_SESSION['password']   = $result->password;
             $_SESSION['status']     = $result->status;
 
@@ -158,11 +166,22 @@ switch ($_GET['action']){
             echo "<script>alert('Gagal daftar ekstrakurikuler ".$result_ekskul->nama." karena sudah terdaftar!')</script>";
             redirect_js('index?m=ekskul');
         } else {
-            $db->query("INSERT INTO peserta(id, id_ekskul, id_siswa) VALUES (NULL,$_POST[id_ekskul],$_SESSION[userid])");
+            $db->query("INSERT INTO peserta(id, id_ekskul, id_siswa, verifikasi) VALUES (NULL,$_POST[id_ekskul],$_SESSION[userid], 'pending')");
             echo "<script>alert('Berhasil daftar ekstrakurikuler $result_ekskul->nama')</script>";
             redirect_js('index?m=ekskul');
         }
 
+        break;
+
+    case 'verifikasi_peserta':
+        $status = $_GET['status'];
+        $id_siswa = $_GET['id_siswa'];
+        $id_ekskul = $_GET['id_ekskul'];
+
+        $db->query("UPDATE peserta SET verifikasi='$status' WHERE id_siswa='$id_siswa' AND id_ekskul=$id_ekskul");
+
+        echo "<script>alert('Berhasil diupdate!')</script>";
+        redirect_js('index?m=verifikasi_peserta');
         break;
 }
 

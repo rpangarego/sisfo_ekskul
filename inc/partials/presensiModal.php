@@ -1,4 +1,4 @@
-<?php 
+<?php
 $no=1;
 foreach ($presensi as $prs) : ?>
     <!-- Modal -->
@@ -12,12 +12,12 @@ foreach ($presensi as $prs) : ?>
             </button>
           </div>
           <div class="modal-body">
-                
-            <?php 
+
+            <?php
               if ($_SESSION['status'] != 'siswa') {
-                $detail_presensi = $db->get_results("SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, sw.nama as nama_siswa FROM presensi pr 
-                    LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id 
-                    LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id 
+                $detail_presensi = $db->get_results("SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, sw.nama as nama_siswa FROM presensi pr
+                    LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id
+                    LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id
                     LEFT JOIN siswa sw ON pr.id_siswa=sw.id
                     WHERE pr.tanggal='$prs->tanggal' AND pr.id_ekskul='$prs->id_ekskul' ORDER BY sw.nama ASC");
 
@@ -25,13 +25,14 @@ foreach ($presensi as $prs) : ?>
 
               } elseif ($_SESSION['status'] == 'siswa') {
 
-                $detail_presensi = $db->get_results("SELECT pr.*, eks.nama AS ekskul FROM presensi pr LEFT JOIN ekskul eks ON pr.id_ekskul=eks.id WHERE id_ekskul='$prs->id_ekskul' AND id_siswa='$_SESSION[userid]' ORDER BY tanggal DESC");
+                $detail_presensi = $db->get_results("SELECT pr.*, eks.nama AS ekskul FROM presensi pr LEFT JOIN ekskul eks ON pr.id_ekskul=eks.id WHERE id_ekskul='$prs->id_ekskul' AND id_siswa='$_SESSION[userid]'  GROUP BY pr.tanggal ORDER BY tanggal DESC");
 
                 $result = $db->get_results("SELECT COUNT(id) AS total_kehadiran FROM presensi WHERE id_ekskul='$prs->id_ekskul' GROUP BY tanggal");
               }
             ?>
 
-            <?php if ($_SESSION['status'] != 'siswa') { ?>
+            <?php if ($_SESSION['status'] != 'siswa') {
+              ?>
               <p>Total yang hadir: <?= count($detail_presensi).' dari '.$result->total_peserta.' peserta.' ?></p>
               <table class="table table-bordered">
                   <tr>
@@ -47,7 +48,7 @@ foreach ($presensi as $prs) : ?>
                 <?php } ?>
               </table>
 
-            <?php } elseif ($_SESSION['status'] == 'siswa') { 
+            <?php } elseif ($_SESSION['status'] == 'siswa') {
               $persentase = (count($detail_presensi) / count($result))*100;
 
               if ($persentase >= 80) {
@@ -79,10 +80,10 @@ foreach ($presensi as $prs) : ?>
                   </tr>
                   <?php } ?>
               </table>
-            
-              
+
+
             <?php } $i=0; ?>
-            
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

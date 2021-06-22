@@ -24,7 +24,7 @@
 
     if (isset($_POST["laporan"])) {
         if ($_POST["laporan"] == 'ekskul') {
-            $query = "SELECT ex.*, sw.nama as nama_peserta, sw.kelas, pgr.nama as pengurus FROM ekskul ex LEFT JOIN peserta ps ON ps.id_ekskul=ex.id LEFT JOIN siswa sw ON ps.id_siswa=sw.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id WHERE ex.id='$_POST[id_ekskul]'";
+            $query = "SELECT ex.*, sw.nama as nama_peserta, sw.kelas, pgr.nama as pengurus FROM ekskul ex LEFT JOIN peserta ps ON ps.id_ekskul=ex.id LEFT JOIN siswa sw ON ps.id_siswa=sw.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id WHERE ex.id='$_POST[id_ekskul]' AND ps.verifikasi='ya'";
 
         } elseif ($_POST["laporan"] == 'presensi') {
             if ($_POST['tanggal'] == 'semua') {

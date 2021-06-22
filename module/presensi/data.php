@@ -1,4 +1,4 @@
-<?php 
+<?php
     session_start();
 
     if ($_SESSION['status'] == 'pengurus'): ?>
@@ -17,13 +17,14 @@
         require "../../inc/functions.php";
         $no=1;
 
-        $where = ($_SESSION['status'] == 'pengurus') ? "WHERE pgr.id='$_SESSION[userid]'" : "";
+        $where = ($_SESSION['status'] == 'pengurus' ) ? "WHERE pgr.id='$_SESSION[userid]'" : "";
+        $where = ($_SESSION['status'] == 'siswa' ) ? "WHERE pr.id_siswa='$_SESSION[userid]'" : "";
 
         if ($_SESSION['status'] != 'siswa') {
             $presensi = $db->get_results("SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus, count(pr.id_siswa) as siswa_hadir FROM presensi pr LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id $where GROUP BY pr.tanggal, pr.id_ekskul ORDER BY pr.id_ekskul, pr.tanggal DESC");
-            
+
         } elseif ($_SESSION['status'] == 'siswa') {
-            $presensi = $db->get_results("SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus FROM presensi pr LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id GROUP BY pr.id_ekskul");
+            $presensi = $db->get_results("SELECT pr.*, ex.nama as ekskul, pgr.id as id_pengurus, pgr.nama as pengurus FROM presensi pr LEFT JOIN ekskul ex ON pr.id_ekskul=ex.id LEFT JOIN pengurus pgr ON ex.id_pengurus=pgr.id $where GROUP BY pr.id_ekskul");
         }
     ?>
 
@@ -53,7 +54,7 @@
         </tr>
     </thead>
     <tbody>
-        
+
     <?php
     if ($presensi) :
        foreach ($presensi as $prs) : ?>
@@ -82,9 +83,7 @@
 
     <?php $no++; endforeach;
     else: ?>
-        <tr>
-            <td colspan="6" style="text-align:center;">Tidak ada data</td>
-        </tr>
+        <tr><td colspan="6" style="text-align:center;">Tidak ada data</td></tr>
     <?php endif; ?>
 
     </tbody>

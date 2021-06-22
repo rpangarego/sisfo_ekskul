@@ -1,4 +1,8 @@
+<?php session_start() ?>
 <div class="buttons mb-4 d-flex justify-content-end">
+    <?php if ($_SESSION['status'] == 'admin' ||$_SESSION['status'] == 'pengurus') : ?>
+        <a href="index?m=verifikasi_peserta" class="btn btn-secondary">Verifikasi Peserta Baru</a>
+    <?php endif; ?>
     <button id="add-button" class="btn btn-primary mr-3">Tambah</button>
 </div>
 
@@ -18,7 +22,8 @@
    require "../../inc/functions.php";
    $no=1;
 
-   $where = ($_SESSION['status'] != 'admin') ? "WHERE ex.id_pengurus='$_SESSION[userid]'" : "";
+   $where = "WHERE ps.verifikasi='ya' ";
+   $where .= ($_SESSION['status'] != 'admin') ? "AND ex.id_pengurus='$_SESSION[userid]'" : "";
    $peserta = $db->get_results("SELECT ps.*, sw.nama as siswa, sw.kelas, ex.nama as ekskul FROM peserta ps LEFT JOIN siswa sw ON ps.id_siswa=sw.id LEFT JOIN ekskul ex ON ps.id_ekskul=ex.id $where ORDER BY sw.kelas, sw.nama, ex.nama ASC");
 
     if ($peserta) :

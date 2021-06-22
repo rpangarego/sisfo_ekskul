@@ -10,7 +10,7 @@
         </li>
 
         <?php if ($_SESSION['status'] == 'admin' || $_SESSION['status'] == 'pengurus' || $_SESSION['status'] == 'kepsek' || $_SESSION['status'] == 'siswa') : ?>
-            <li class="nav-item">   
+            <li class="nav-item">
                 <a class="nav-link <?=checkMenuActive('postingan')?>" href="index?m=postingan">
                 <i class="ni ni-tv-2"></i>
                 <span class="nav-link-text">Postingan</span>
@@ -62,7 +62,7 @@
                 </a>
             </li>
         <?php endif ?>
-        
+
         <?php if ($_SESSION['status'] == 'admin') : ?>
             <li class="nav-item">
                 <a class="nav-link <?=checkMenuActive('pengguna')?>" href="index?m=pengguna">
@@ -72,6 +72,4 @@
             </li>
         <?php endif ?>
     </ul>
-    <!-- Divider -->
-    <hr class="my-3">
 </div>

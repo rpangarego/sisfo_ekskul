@@ -23,6 +23,10 @@
             <th>Jadwal</th>
             <th>Pengurus</th>
 
+            <?php if ($_SESSION['status'] == 'siswa') : ?>
+            <th>Status Verifikasi</th>
+            <?php endif ?>
+
             <?php if ($_SESSION['status'] != 'siswa') : ?>
             <th>Jumlah Peserta</th>
             <?php endif ?>
@@ -40,10 +44,16 @@
     <?php
     require "../../inc/functions.php";
 
-    $where = ($_SESSION['status'] == 'siswa') ? "LEFT JOIN peserta pst ON pst.id_ekskul=e.id WHERE pst.id_siswa='$_SESSION[userid]'" : "";
+    $where = ($_SESSION['status'] == 'siswa') ? "WHERE ps.id_siswa='$_SESSION[userid]'" : "";
 
     $no=1;
-    $ekskul = $db->get_results("SELECT e.*, pg.nama AS nama_pengurus, count(ps.id) as jml_peserta FROM ekskul e LEFT JOIN pengurus pg ON e.id_pengurus=pg.id LEFT JOIN peserta ps ON e.id=ps.id_ekskul $where GROUP BY e.id ORDER BY wajib DESC");
+    $query_sql = "SELECT e.*, pg.nama AS nama_pengurus, count(ps.id) as jml_peserta FROM ekskul e LEFT JOIN pengurus pg ON e.id_pengurus=pg.id LEFT JOIN peserta ps ON e.id=ps.id_ekskul $where GROUP BY e.id ORDER BY wajib DESC";
+
+    if ($_SESSION['status'] == 'siswa') {
+        $query_sql = "SELECT e.*, pg.nama AS nama_pengurus, ps.verifikasi FROM ekskul e JOIN pengurus pg ON e.id_pengurus=pg.id JOIN peserta ps ON e.id=ps.id_ekskul $where";
+    }
+
+    $ekskul =  $db->get_results($query_sql);
 
     if ($ekskul) :
        foreach ($ekskul as $eks) : ?>
@@ -52,6 +62,10 @@
             <td><?= $eks->nama; ?></td>
             <td><?= $eks->jadwal; ?></td>
             <td><?= $eks->nama_pengurus; ?></td>
+
+            <?php if ($_SESSION['status'] == 'siswa') : ?>
+                <td align="center"><?= ucwords($eks->verifikasi); ?></td>
+            <?php endif ?>
 
             <?php if ($_SESSION['status'] != 'siswa') : ?>
             <td align="center"><?= $eks->jml_peserta; ?></td>
