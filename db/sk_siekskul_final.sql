@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 22, 2021 at 06:56 AM
+-- Generation Time: Jun 23, 2021 at 07:49 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -69,15 +69,15 @@ CREATE TABLE `pengguna` (
 
 INSERT INTO `pengguna` (`id`, `username`, `password`, `status`) VALUES
 ('1', 'admin', 'admin', 'admin'),
-('1002', '1002', '12345', 'pengurus'),
-('1003', '1003', '12345', 'pengurus'),
-('1004', '1004', '12345', 'pengurus'),
-('1005', '1005', '12345', 'pengurus'),
-('1006', '1006', '12345', 'pengurus'),
-('1007', '1007', '12345', 'pengurus'),
-('1008', '1008', '12345', 'pengurus'),
-('1009', '1009', '12345', 'pengurus'),
-('1010', '1010', '12345', 'pengurus'),
+('1002', 'romanus', '12345', 'pengurus'),
+('1003', 'antonius', '12345', 'pengurus'),
+('1004', 'zainal', '12345', 'pengurus'),
+('1005', 'regina', '12345', 'pengurus'),
+('1006', 'allimarsun', '12345', 'pengurus'),
+('1007', 'junanto', '12345', 'pengurus'),
+('1008', 'yovinus', '12345', 'pengurus'),
+('1009', 'gusti', '12345', 'pengurus'),
+('1010', 'yohana', '12345', 'pengurus'),
 ('1021', 'kepsek', '12345', 'kepsek'),
 ('1022', 'wakepsek', '12345', 'wakepsek'),
 ('1100', '3041601374', '12345', 'siswa'),
@@ -208,7 +208,11 @@ INSERT INTO `peserta` (`id`, `id_ekskul`, `id_siswa`) VALUES
 (78, 8, '1120'),
 (79, 9, '1121'),
 (80, 9, '1122'),
-(81, 7, '1123');
+(81, 7, '1123'),
+(82, 5, '1100'),
+(83, 6, '1108'),
+(84, 1, '1105'),
+(85, 6, '1101');
 
 -- --------------------------------------------------------
 
@@ -441,7 +445,7 @@ ALTER TABLE `ekskul`
 -- AUTO_INCREMENT for table `peserta`
 --
 ALTER TABLE `peserta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `postingan`
