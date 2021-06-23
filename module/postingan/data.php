@@ -1,4 +1,4 @@
-<?php 
+<?php
     session_start();
     if ($_SESSION['status'] != 'kepsek' && $_SESSION['status'] != 'siswa'): ?>
     <div class="buttons mb-4 d-flex justify-content-end">
@@ -7,7 +7,7 @@
 <?php endif ?>
 
 
-<?php 
+<?php
     require "../../inc/functions.php";
 
    $where = "";
@@ -28,8 +28,8 @@
    }
 
    $no=1;
-   $postingan = $db->get_results("SELECT p.*, e.nama AS ekskul, pg.nama AS pengurus FROM postingan p 
-                        LEFT JOIN ekskul e ON p.id_ekskul=e.id 
+   $postingan = $db->get_results("SELECT p.*, e.nama AS ekskul, pg.nama AS pengurus FROM postingan p
+                        LEFT JOIN ekskul e ON p.id_ekskul=e.id
                         LEFT JOIN pengurus pg ON p.id_pengurus=pg.id $where ORDER BY p.kategori,p.tanggal DESC");
 
 
@@ -68,11 +68,11 @@
                             <button id="delete-button" class="btn btn-sm btn-danger" data-id="<?= $post->id; ?>" data-action="postingan_hapus" data-token="<?= $_SESSION['token'] ?>">Hapus</button>
                         </td>
                     <?php endif ?>
-                    
+
                 </tr>
             <?php endforeach;
             else: ?>
-                <tr><td colspan="6" style="text-align:center;">Tidak ada data</td></tr>
+                <tr><td colspan="7" style="text-align:center;">Tidak ada data</td></tr>
             <?php endif; ?>
 
             </tbody>

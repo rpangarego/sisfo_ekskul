@@ -11,11 +11,13 @@ switch ($_GET['action']){
     case 'check_login':
         $username	= $_POST['username'];
         $password	= $_POST['password'];
+        $user_real_name = '';
 
         $result = $db->get_row("SELECT * FROM pengguna WHERE (id='$username' OR username='$username') AND password='$password'");
 
         if ($result->status == 'siswa') {
-            $siswa = $db->get_row("SELECT * FROM peserta WHERE id_siswa='$result->id' GROUP BY id_siswa");
+            $siswa = $db->get_row("SELECT peserta.*, siswa.nama FROM peserta LEFT JOIN siswa ON peserta.id_siswa=siswa.id WHERE id_siswa='$result->id' GROUP BY id_siswa");
+            $user_real_name = $siswa->nama;
 
             if (!$siswa) {
                 echo 'Tidak dapat login karena tidak mengikuti ekstrakurikuler.';
@@ -23,9 +25,14 @@ switch ($_GET['action']){
             }
         }
 
+        if ($result->status == 'pengurus') {
+            $pengurus = $db->get_row("SELECT * FROM pengurus WHERE id=$result->id");
+            $user_real_name = $pengurus->nama;
+        }
+
         if ($result) {
             $_SESSION['userid']     = $result->id;
-            $_SESSION['username']   = $result->username;
+            $_SESSION['username']   = ($result->status == 'siswa' || $result->status == 'pengurus') ? $user_real_name : $result->username;
             $_SESSION['password']   = $result->password;
             $_SESSION['status']     = $result->status;
 
@@ -49,12 +56,12 @@ switch ($_GET['action']){
         $temp = "images/upload/";
         if (!file_exists($temp)) mkdir($temp);
 
-        $filename       = $_POST['newfilename'];
-        $fileupload     = $_FILES['fileupload']['tmp_name'];
-        $ImageName      = $_FILES['fileupload']['name'];
-        $ImageType      = $_FILES['fileupload']['type'];
+        $filename   = $_POST['newfilename'];
+        $fileupload = $_FILES['fileupload']['tmp_name'];
+        $ImageName  = $_FILES['fileupload']['name'];
+        $ImageType  = $_FILES['fileupload']['type'];
 
-        if (!empty($fileupload)){
+        if (!empty($fileupload)) {
             move_uploaded_file($_FILES["fileupload"]["tmp_name"], $temp.$filename); // Menyimpan file
             echo "File uploaded successfully#info"; //<message>_<alert-style>
         } else {
@@ -85,7 +92,6 @@ switch ($_GET['action']){
             echo "Password tidak sama!#danger";
             exit;
         }
-
         break;
 
     // RESET PASSWORD
@@ -119,7 +125,6 @@ switch ($_GET['action']){
             echo "Update gagal. Username tidak tersedia.#danger";
             exit;
         }
-
         break;
 
     // RESET PASSWORD
@@ -147,8 +152,24 @@ switch ($_GET['action']){
         } else {
             $date_options = '<option></option>';
         }
-
         echo $date_options;
+        break;
+
+    case 'daftar_ekskul':
+        $result_ekskul = $db->get_row("SELECT nama FROM ekskul WHERE id=$_POST[id_ekskul]");
+        $result = $db->get_row("SELECT id FROM peserta WHERE id_ekskul=$_POST[id_ekskul] AND id_siswa=$_SESSION[userid]");
+
+        // var_dump($result);
+
+        if ($result) {
+            echo "<script>alert('Gagal daftar ekstrakurikuler ".$result_ekskul->nama." karena sudah terdaftar!')</script>";
+            redirect_js('index?m=ekskul');
+        } else {
+            $db->query("INSERT INTO peserta(id, id_ekskul, id_siswa) VALUES (NULL,$_POST[id_ekskul],$_SESSION[userid])");
+            echo "<script>alert('Berhasil daftar ekstrakurikuler $result_ekskul->nama')</script>";
+            redirect_js('index?m=ekskul');
+        }
+
         break;
 }
 
