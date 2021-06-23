@@ -1,8 +1,8 @@
-<?php 
+<?php
    $user = $db->get_row("SELECT * FROM pengguna WHERE id='$_SESSION[userid]'");
 ?>
 
-<h1>My Profile</h1>
+<h1>Profil Pengguna</h1>
 <div class="alert-container"></div>
 
 <div id="content-data">
@@ -24,5 +24,5 @@
             </form>
         </div>
     </div>
-    
+
 </div>

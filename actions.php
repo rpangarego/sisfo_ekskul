@@ -11,11 +11,13 @@ switch ($_GET['action']){
     case 'check_login':
         $username	= $_POST['username'];
         $password	= $_POST['password'];
+        $user_real_name = '';
 
         $result = $db->get_row("SELECT * FROM pengguna WHERE (id='$username' OR username='$username') AND password='$password'");
 
         if ($result->status == 'siswa') {
-            $siswa = $db->get_row("SELECT * FROM peserta WHERE id_siswa='$result->id' GROUP BY id_siswa");
+            $siswa = $db->get_row("SELECT peserta.*, siswa.nama FROM peserta LEFT JOIN siswa ON peserta.id_siswa=siswa.id WHERE id_siswa='$result->id' GROUP BY id_siswa");
+            $user_real_name = $siswa->nama;
 
             if (!$siswa) {
                 echo 'Tidak dapat login karena tidak mengikuti ekstrakurikuler.';
@@ -23,9 +25,14 @@ switch ($_GET['action']){
             }
         }
 
+        if ($result->status == 'pengurus') {
+            $pengurus = $db->get_row("SELECT * FROM pengurus WHERE id=$result->id");
+            $user_real_name = $pengurus->nama;
+        }
+
         if ($result) {
             $_SESSION['userid']     = $result->id;
-            $_SESSION['username']   = $result->username;
+            $_SESSION['username']   = ($result->status == 'siswa' || $result->status == 'pengurus') ? $user_real_name : $result->username;
             $_SESSION['password']   = $result->password;
             $_SESSION['status']     = $result->status;
 
